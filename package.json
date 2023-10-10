@@ -1,7 +1,6 @@
 {
-  "name": "webpack-demo",
+  "name": "todo",
   "version": "1.0.0",
-  "description": "",
   "private": true,
   "scripts": {
     "watch": "webpack --watch",
@@ -20,5 +19,7 @@
   },
   "dependencies": {
     "normalize.css": "^8.0.1"
-  }
+  },
+  "main": "webpack.config.js",
+  "description": ""
 }
