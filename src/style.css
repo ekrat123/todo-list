@@ -12,11 +12,13 @@ h1 {
 }
 .content {
   background-color: rgba(255, 255, 0, 0.5);
+  height: 100%;
 }
 
 .sidebar {
   background-color: aliceblue;
   padding: 1.5rem;
+  height: 100%;
 }
 .tile {
   padding: 0.4rem;
@@ -52,4 +54,8 @@ h1 {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
   }
+}
+
+.none {
+  display: none;
 }

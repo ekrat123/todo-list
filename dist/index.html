@@ -14,18 +14,34 @@
       <div class="sidebar">
         <section class="home-sec">
           <div class="home">Home</div>
-          <div class="tile">
+          <div class="tile" data-allTask>
             <img src="images/allTask.svg" alt="allTask" /> All Task
           </div>
-          <div class="tile"><img src="images/today.svg" alt="" />Today</div>
-          <div class="tile"><img src="images/week.svg" alt="" />This Week</div>
-          <div class="tile">
+          <div class="tile" data-today>
+            <img src="images/today.svg" alt="" />Today
+          </div>
+          <div class="tile" data-thisWeek>
+            <img src="images/week.svg" alt="" />This Week
+          </div>
+          <div class="tile" data-important>
             <img src="images/important.svg" alt="" />Important
           </div>
         </section>
         <section class="project">
           <div class="proj">Project</div>
-          <button class="add-project">
+          <div class="projectContainer" data-projectContainer></div>
+          <form
+            action=""
+            data-addProjectForm
+            class="none"
+            name="addProjectForm"
+            id="addProjectForm"
+          >
+            <input data-addProjectInput type="text" />
+            <button type="button" data-addProjectCancel>Cancel</button>
+            <button type="submit" data-addProjectSubmit>Submit</button>
+          </form>
+          <button class="add-project" data-addProject>
             <img src="images/add.svg" alt="" /> Project
           </button>
         </section>
