@@ -8,3 +8,6 @@ import UI from "./UI";
 
 UI.displayProjects();
 UI.getProject();
+UI.setCancelFormBtn();
+UI.displayProjectContent();
+UI.addTaskEvent();

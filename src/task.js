@@ -1,21 +1,21 @@
 export default class Task {
-  constructor(name, time = "no time", description = "", priority = "") {
+  constructor(name, priority = "", time = "no time", description = "") {
     this.name = name;
+    this.priority = priority;
     this.time = time;
     this.description = description;
-    this.priority = priority;
   }
 
-  getTaskName(task) {
-    return task.name;
+  getTaskName() {
+    return this.name;
   }
 
-  getTaskTime(task) {
-    return task.time;
+  getTaskTime() {
+    return this.time;
   }
 
   getFormattedTime() {
-    const [day, month, year] = this.time.split("/");
+    const [year, month, day] = this.time.split("-");
     return `${month}/${day}/${year}`;
   }
 }
