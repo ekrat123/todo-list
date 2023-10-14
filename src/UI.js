@@ -4,14 +4,14 @@ import Storage from "./storage";
 import CreateTodoList from "./todoList";
 
 const domElements = (function () {
-  const addProjectBtn = document.querySelector("[data-addProject]");
-  const addProjectInp = document.querySelector("[data-addProjectInput]");
-  const addProjectForm = document.querySelector("[data-addProjectForm]");
-  const addProjectCancel = document.querySelector("[data-addProjectCancel]");
-  const projectContainer = document.querySelector("[data-projectContainer]");
-  const projectSection = document.querySelector("[data-sectionProject]");
-  const projectContent = document.querySelector("[data-projectContent]");
-  const container = document.querySelector(".container");
+  const addProjectBtn = document.querySelector("[data-add-project]");
+  const addProjectInp = document.querySelector("[data-add-project-input]");
+  const addProjectForm = document.querySelector("[data-add-project-form]");
+  const addProjectCancel = document.querySelector("[data-add-project-cancel]");
+  const projectContainer = document.querySelector("[data-project-container]");
+  const projectSection = document.querySelector("[data-section-project]");
+  const projectContent = document.querySelector("[data-project-content]");
+  const container = document.querySelector("[data-container]");
 
   return {
     addProjectBtn,
@@ -32,7 +32,8 @@ export default class UI {
     const htmlProjects = allProjects
       .map(
         (project, id) =>
-          `<div class= "tile" data-id= ${id} data-key = "project">${project.name}</div>`
+          `<div><span class="tile" data-key="project">${project.name}</span>
+          <span ><img data-delete-project= "${project.name}" src="images/delete.svg" alt="delete"/></span></div>`
       )
       .join(" ");
     domElements.projectContainer.innerHTML = htmlProjects;
@@ -70,37 +71,41 @@ export default class UI {
         const currentProject = Storage.getTodoList().getProject(
           e.target.textContent.trim()
         );
-        domElements.projectContent.innerHTML = `<h4>${currentProject.name}</h4><form data-addTaskForm="addTaskForm">
+        domElements.projectContent.innerHTML = `<h4>${currentProject.name}</h4>
+        <form data-add-task-form="addTaskForm">
+        <div class = "taskDiv" data-task-div> </div>
         <div class="addTAskContainer">
-          <input type="text" data-addTaskInp="addTaskInp" />
+          <input type="text" data-add-task-inp="addTaskInp" />
           <select name="priority" id="priority" data-priority="priority">
             <option value="0">Select Priority</option>
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
             <option value="High">High</option>
           </select>
-          <input type="date" name="date" id="date" data-dateInp="dateInp" />
-          <img class="addTaskBtn" data-addTaskBtn="addTaskBtn" data-currentProjectName = "${currentProject.name}" src="images/add.svg"/>
+          <input type="date" name="date" id="date" data-date-inp="dateInp" />
+          <img class="addTaskBtn" data-add-task-btn = "addTaskBtn" data-current-project-name = "${currentProject.name}" src="images/add.svg"/>
         </div>
         <textarea
           name="description"
           id="description"
           cols="50"
-          rows="5"
+          rows="3"
           data-description="description"
         ></textarea>
       </form>`;
+
+        UI.displayProjectTask(currentProject.name);
       }
     });
   }
 
   static addTaskEvent() {
     domElements.container.addEventListener("click", function (e) {
-      if (e.target.classList.contains("addTaskBtn")) {
-        const newTaskName = document.querySelector("[data-addTaskInp]").value;
-        const newTaskPriority = document.querySelector("[data-priority]").value;
-        const newTaskTime = document.querySelector("[data-dateInp]").value;
-        const newTaskDescription =
+      if (e.target.getAttribute("data-add-task-btn") === "addTaskBtn") {
+        let newTaskName = document.querySelector("[data-add-task-inp]").value;
+        let newTaskPriority = document.querySelector("[data-priority]").value;
+        let newTaskTime = document.querySelector("[data-date-inp]").value;
+        let newTaskDescription =
           document.querySelector("[data-description]").value;
 
         const newTask = new Task(
@@ -111,11 +116,60 @@ export default class UI {
         );
 
         const currentProjectName = e.target.getAttribute(
-          "data-currentProjectName"
+          "data-current-project-name"
         );
 
         Storage.addTask(currentProjectName, newTask);
-        console.log(Storage.getTodoList());
+        UI.displayProjectTask(currentProjectName);
+        // Clear the input fields
+        document.querySelector("[data-add-task-inp]").value = "";
+        document.querySelector("[data-priority]").value = "";
+        document.querySelector("[data-date-inp]").value = "";
+        document.querySelector("[data-description]").value = "";
+      }
+    });
+  }
+
+  static displayProjectTask(projectName) {
+    const currentTasks = Storage.getTodoList()
+      .getProject(projectName)
+      .getAllTasks();
+
+    const tasksDiv = document.querySelector("[data-task-div]");
+    tasksDiv.innerHTML = "";
+
+    const tasksHtml = currentTasks
+      .map((task) => {
+        return `<div class="task">
+      <span class="taskName">${task.name}</span
+      ><span class="taskPriority">${task.priority}</span>
+      <span class="taskTime">${task.time}</span>
+      <span class="taskDescription">${task.description}</span>
+      <span class = "deleteTask"><img data-project-name = "${projectName}"data-delete-task= "${task.name}" src="images/delete.svg" alt="delete"/></span>
+    </div>`;
+      })
+      .join(" ");
+    tasksDiv.innerHTML = tasksHtml;
+  }
+
+  static deleteProject() {
+    domElements.projectContainer.addEventListener("click", function (e) {
+      if (e.target.dataset.deleteProject) {
+        const currentProjectName = e.target.dataset.deleteProject;
+        Storage.deleteProject(currentProjectName);
+        UI.displayProjects();
+        domElements.projectContent.innerHTML = "";
+      }
+    });
+  }
+
+  static deleteTask() {
+    domElements.projectContent.addEventListener("click", function (e) {
+      if (e.target.dataset.deleteTask) {
+        const projectName = e.target.dataset.projectName;
+        const taskName = e.target.dataset.deleteTask;
+        Storage.deleteTask(projectName, taskName);
+        UI.displayProjectTask(projectName);
       }
     });
   }

@@ -11,3 +11,5 @@ UI.getProject();
 UI.setCancelFormBtn();
 UI.displayProjectContent();
 UI.addTaskEvent();
+UI.deleteProject();
+UI.deleteTask();
