@@ -71,11 +71,11 @@ export default class UI {
         const currentProject = Storage.getTodoList().getProject(
           e.target.textContent.trim()
         );
-        domElements.projectContent.innerHTML = `<h4>${currentProject.name}</h4>
-        <form data-add-task-form="addTaskForm">
+        domElements.projectContent.innerHTML = `<div class = "taskContainer"><h4>${currentProject.name}</h4>
         <div class = "taskDiv" data-task-div> </div>
-        <div class="addTAskContainer">
-          <input type="text" data-add-task-inp="addTaskInp" />
+        <form data-add-task-form="addTaskForm">
+        <div class="addTaskContainer">
+         <span class = "addInput"><label for = "addTaskInput">Taskname:  </label><input id = "addTaskInput" type="text" data-add-task-inp="addTaskInp" /></span>
           <select name="priority" id="priority" data-priority="priority">
             <option value="0">Select Priority</option>
             <option value="Low">Low</option>
@@ -86,13 +86,14 @@ export default class UI {
           <img class="addTaskBtn" data-add-task-btn = "addTaskBtn" data-current-project-name = "${currentProject.name}" src="images/add.svg"/>
         </div>
         <textarea
+        placeholder = "Add a description..."
           name="description"
           id="description"
           cols="50"
           rows="3"
           data-description="description"
         ></textarea>
-      </form>`;
+      </form></div>`;
 
         UI.displayProjectTask(currentProject.name);
       }
@@ -123,7 +124,7 @@ export default class UI {
         UI.displayProjectTask(currentProjectName);
         // Clear the input fields
         document.querySelector("[data-add-task-inp]").value = "";
-        document.querySelector("[data-priority]").value = "";
+        document.querySelector("[data-priority]").value = "0";
         document.querySelector("[data-date-inp]").value = "";
         document.querySelector("[data-description]").value = "";
       }
@@ -142,11 +143,11 @@ export default class UI {
       .map((task) => {
         return `<div class="task">
         <span class = "task">
-      <span class="taskName">Name: ${task.name}</span>
-      <span class="taskTime">Date: ${task.time}</span>
+      <span class="taskName">${task.name}</span>
+      <span class="taskTime">${task.time}</span>
       <span class = "deleteTask"><img data-project-name = "${projectName}"data-delete-task= "${task.name}" src="images/delete.svg" alt="delete"/></span>
       </span>
-      <span class="taskDescription">Description: ${task.description}</span>
+      <span class="taskDescription">${task.description}</span>
     </div>`;
       })
       .join(" ");
@@ -166,7 +167,7 @@ export default class UI {
 
   static deleteTask() {
     domElements.projectContent.addEventListener("click", function (e) {
-      if (e.target.dataset.deleteTask) {
+      if ("deleteTask" in e.target.dataset) {
         const projectName = e.target.dataset.projectName;
         const taskName = e.target.dataset.deleteTask;
         Storage.deleteTask(projectName, taskName);

@@ -14,12 +14,19 @@ h1 {
   background-color: rgba(255, 255, 0, 0.5);
   height: 100%;
   padding: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 .content h4 {
   font-size: 1.5rem;
   margin: 1rem;
   text-align: center;
+}
+
+.taskContainer {
+  max-width: 760px;
+  width: 100%;
 }
 
 .sidebar {
@@ -88,7 +95,7 @@ div.task {
   background-color: rgba(102, 155, 188, 0.9);
   padding: 0.5rem;
   border-radius: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 span.task {
@@ -101,4 +108,58 @@ span.deleteTask {
 }
 span.taskTime {
   margin: auto;
+}
+
+span.taskName::before {
+  color: rgba(165, 42, 42, 0.9);
+  content: "Name: ";
+}
+
+span.taskTime::before {
+  color: rgba(165, 42, 42, 0.9);
+  content: "Date: ";
+}
+span.taskDescription::before {
+  color: rgba(165, 42, 42, 0.9);
+  content: "Description: ";
+}
+.addTaskContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.addTaskBtn {
+  margin-left: auto;
+  background-color: rgba(86, 11, 173, 0.7);
+  border-radius: 5px;
+  padding: 0.25rem;
+}
+
+form textarea {
+  margin-top: 0.5rem;
+  width: 95%;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.taskContainer > form {
+  background-color: rgba(88, 129, 87, 0.5);
+  padding: 0.75rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.addTaskContainer input,
+select {
+  height: 1.5rem;
+  border-radius: 5px;
+  padding: 0.1rem;
+}
+
+form label {
+  font-weight: 500;
+}
+
+#addProjectForm input {
+  margin-bottom: 0.5rem;
 }
