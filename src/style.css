@@ -66,3 +66,39 @@ h1 {
 .none {
   display: none;
 }
+
+.projectContainer > div {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+.projectName {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+span.taskDescription {
+  display: block;
+}
+
+div.task {
+  background-color: rgba(102, 155, 188, 0.9);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+span.task {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+span.deleteTask {
+  margin-left: auto;
+}
+span.taskTime {
+  margin: auto;
+}

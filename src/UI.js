@@ -32,7 +32,7 @@ export default class UI {
     const htmlProjects = allProjects
       .map(
         (project, id) =>
-          `<div><span class="tile" data-key="project">${project.name}</span>
+          `<div class="tile"><span class = "projectName" data-key="project"><img src = "images/project.svg" /> ${project.name}</span>
           <span ><img data-delete-project= "${project.name}" src="images/delete.svg" alt="delete"/></span></div>`
       )
       .join(" ");
@@ -141,11 +141,12 @@ export default class UI {
     const tasksHtml = currentTasks
       .map((task) => {
         return `<div class="task">
-      <span class="taskName">${task.name}</span
-      ><span class="taskPriority">${task.priority}</span>
-      <span class="taskTime">${task.time}</span>
-      <span class="taskDescription">${task.description}</span>
+        <span class = "task">
+      <span class="taskName">Name: ${task.name}</span>
+      <span class="taskTime">Date: ${task.time}</span>
       <span class = "deleteTask"><img data-project-name = "${projectName}"data-delete-task= "${task.name}" src="images/delete.svg" alt="delete"/></span>
+      </span>
+      <span class="taskDescription">Description: ${task.description}</span>
     </div>`;
       })
       .join(" ");
