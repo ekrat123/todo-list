@@ -2,6 +2,8 @@ import Task from "./task";
 import Project from "./project";
 import Storage from "./storage";
 import CreateTodoList from "./todoList";
+import { format, compareAsc } from "date-fns";
+import { container } from "webpack";
 
 const domElements = (function () {
   const addProjectBtn = document.querySelector("[data-add-project]");
@@ -30,11 +32,12 @@ export default class UI {
     const allProjects = Storage.getAllProjects();
     domElements.projectContainer.innerHTML = "";
     const htmlProjects = allProjects
-      .map(
-        (project, id) =>
-          `<div class="tile"><span class = "projectName" data-key="project"><img src = "images/project.svg" /> ${project.name}</span>
-          <span ><img data-delete-project= "${project.name}" src="images/delete.svg" alt="delete"/></span></div>`
-      )
+      .map((project) => {
+        if (project.name !== "Today") {
+          return `<div class="tile"><span class = "projectName" data-key="project"><img src = "images/project.svg" /> ${project.name}</span>
+        <span ><img data-delete-project= "${project.name}" src="images/delete.svg" alt="delete"/></span></div>`;
+        }
+      })
       .join(" ");
     domElements.projectContainer.innerHTML = htmlProjects;
   }
@@ -42,7 +45,7 @@ export default class UI {
   static getProject() {
     domElements.addProjectBtn.addEventListener("click", function () {
       this.classList.add("none");
-      domElements.addProjectForm.classList.remove("none");
+      domElements.addProjectForm.classList.add("grid");
     });
 
     domElements.addProjectForm.addEventListener("submit", function (e) {
@@ -53,12 +56,14 @@ export default class UI {
       UI.displayProjects();
       domElements.addProjectInp.value = "";
       this.classList.add("none");
+      this.classList.remove("grid");
       domElements.addProjectBtn.classList.remove("none");
     });
   }
 
   static setCancelFormBtn() {
     domElements.addProjectCancel.addEventListener("click", function () {
+      domElements.addProjectForm.classList.remove("grid");
       domElements.addProjectForm.classList.add("none");
       domElements.addProjectBtn.classList.remove("none");
     });
@@ -104,6 +109,9 @@ export default class UI {
     domElements.container.addEventListener("click", function (e) {
       if (e.target.getAttribute("data-add-task-btn") === "addTaskBtn") {
         let newTaskName = document.querySelector("[data-add-task-inp]").value;
+        if (!newTaskName) {
+          return;
+        }
         let newTaskPriority = document.querySelector("[data-priority]").value;
         let newTaskTime = document.querySelector("[data-date-inp]").value;
         let newTaskDescription =
@@ -144,8 +152,13 @@ export default class UI {
         return `<div class="task">
         <span class = "task">
       <span class="taskName">${task.name}</span>
-      <span class="taskTime">${task.time}</span>
-      <span class = "deleteTask"><img data-project-name = "${projectName}"data-delete-task= "${task.name}" src="images/delete.svg" alt="delete"/></span>
+      <span class="taskTime">${format(
+        new Date(task.getFormattedTime()),
+        "do MMMM yyyy"
+      )}</span>
+      <span class = "deleteTask"><img data-project-name = "${projectName}"data-delete-task= "${
+          task.name
+        }" src="images/delete.svg" alt="delete"/></span>
       </span>
       <span class="taskDescription">${task.description}</span>
     </div>`;
@@ -175,4 +188,19 @@ export default class UI {
       }
     });
   }
+
+  /*  static createAllProject() {
+    const allProjects = Storage.getAllProjects();
+    let allTasks = [];
+    allProjects.forEach((project) => {
+      let newarr = [...project.getAllTasks()];
+      allTasks = [...allTasks, ...newarr];
+    });
+
+    domElements.container.addEventListener("click", function (e) {
+      if (e.target.dataset.key === "allProjects") {
+        console.log(allTasks);
+      }
+    });
+  }*/
 }

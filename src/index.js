@@ -13,3 +13,4 @@ UI.displayProjectContent();
 UI.addTaskEvent();
 UI.deleteProject();
 UI.deleteTask();
+// UI.createAllProject();

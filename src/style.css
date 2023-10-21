@@ -70,8 +70,52 @@ h1 {
   }
 }
 
+#addProjectForm {
+  /* display: grid; */
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+}
+
+#addProjectForm input {
+  grid-column: span 2;
+  padding: 0.2rem;
+  border-radius: 5px;
+}
+
+#addProjectForm button {
+  grid-column: span 1;
+  padding: 0.2rem;
+  border-radius: 5px;
+  font-size: 1.2rem;
+}
+
+#addProjectForm button:first-of-type {
+  background-color: rgba(208, 0, 0, 0.7);
+  grid-column: span 1;
+  padding: 0.2rem;
+  border-radius: 5px;
+  color: black;
+}
+
+#addProjectForm button:first-of-type:hover {
+  background-color: #2ec4b6;
+}
+
+#addProjectForm button:nth-child(3) {
+  background-color: #6a994e;
+  color: black;
+}
+
+#addProjectForm button:nth-child(3):hover {
+  background-color: #2ec4b6;
+}
+
 .none {
   display: none;
+}
+
+.grid {
+  display: grid;
 }
 
 .projectContainer > div {
@@ -151,7 +195,7 @@ form textarea {
 
 .addTaskContainer input,
 select {
-  height: 1.5rem;
+  height: 1.25rem;
   border-radius: 5px;
   padding: 0.1rem;
 }
